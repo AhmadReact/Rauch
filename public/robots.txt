@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://rauchguardian.com
+
+# Sitemaps
+Sitemap: https://rauchguardian.com/sitemap.xml

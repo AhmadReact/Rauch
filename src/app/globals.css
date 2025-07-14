@@ -1,0 +1,385 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* styles/fonts.css */
+@font-face {
+  font-family: "Avenir-Medium";
+  src: url("../../public/AvenirMedium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Avenir-Black";
+  src: url("../../public/AvenirBlack.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.grays {
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.488);
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+.MuiFormControlLabel-label {
+  font-weight: bold;
+}
+.cardcancel {
+  background: #fff;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  display: inline-block;
+  font-size: 14px;
+  font-style: italic;
+  height: 47px;
+  line-height: normal;
+  margin-left: 10px;
+  padding: 7px 15px;
+  width: auto;
+}
+
+.sticky-summary {
+  position: sticky;
+  top: 100px; /* Stick to the top of the viewport */
+  z-index: 100; /* Adjust the z-index as needed */
+  /* Add any styling you want for the sticky state */
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 80px solid transparent;
+  border-right: 80px solid transparent;
+  border-bottom: 46px solid #262626; /* Change 'blue' to your desired color */
+  transform: rotate(180deg) translate(-50%);
+  position: absolute;
+  right: 50%;
+  bottom: -45px;
+}
+
+.mobiletriangle {
+  width: 0;
+  height: 0;
+  border-left: 43px solid transparent;
+  border-right: 43px solid transparent;
+  border-bottom: 26px solid #262626;
+  transform: rotate(180deg) translate(-50%);
+  position: absolute;
+  right: 50%;
+  bottom: -23px;
+}
+
+.fields {
+  display: flex;
+}
+@media screen and (max-width: 768px) {
+  .make-payment-dialog {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+  .make-payment-dialog button {
+    width: unset !important;
+  }
+}
+
+.add-line {
+  border: 2px dashed #aab8bd;
+  border-radius: 5px;
+  color: #4c606b;
+  display: block;
+  font-weight: 700;
+  height: 70px;
+  line-height: 70px;
+  margin-top: 30px;
+  padding: 0 20px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.add-line i {
+  background: rgb(12 34 93);
+  border-radius: 5px;
+  color: #fff;
+  display: inline-block;
+  font-size: 28px;
+  height: 40px;
+  line-height: 40px;
+  margin: 13px 0 0 10px;
+  text-align: center;
+  vertical-align: top;
+  width: 40px;
+  font-style: normal;
+}
+
+.usagesbtn {
+  border: 1px solid transparent;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5700b5",endColorstr="#ac00f6",GradientType=1);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 35px;
+  padding: 0 35px;
+}
+
+nav {
+  /* Your default styles for the header */
+  transition: background-color 0.3s ease;
+}
+
+.sticky {
+  /* Your styles for the sticky header */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.967);
+  z-index: 100;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99999;
+  background: radial-gradient(rgba(20, 20, 20, 0.5), rgba(0, 0, 0, 0.5));
+}
+.loaderImage-container {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translateX(-50%);
+}
+
+.border-both {
+  border-right: 2.3px solid #f69220;
+  border-left: 2.3px solid #f69220;
+}
+
+.border-both-blue {
+  border-right: 2.3px solid #3e70b7;
+  border-left: 2.3px solid #3e70b7;
+}
+
+.bg-creditCard {
+  background-image: url("/src/app/assets/creditcard.jpg");
+}
+
+/* Target the eye icon */
+#password::-webkit-input-placeholder {
+  /* Set the color of the eye icon to white */
+  color: white;
+}
+
+/* For Firefox */
+#password::-moz-placeholder {
+  color: white;
+}
+
+/* For IE */
+#password:-ms-input-placeholder {
+  color: white;
+}
+
+::-ms-reveal {
+  filter: invert(100%);
+}
+
+.flicker {
+  /*  
+  font-family: serif;  */
+  color: #3e70b7;
+  text-align: center;
+  animation: animate 2.5s linear infinite;
+}
+
+.MuiAccordion-root::before {
+  display: none;
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  color: #fff;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  transform: rotateX(70deg);
+  animation: 1s spin linear infinite;
+}
+.loader:after {
+  color: #092264;
+  transform: rotateY(70deg);
+  animation-delay: 0.4s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
+  }
+}
+
+@keyframes rotateccw {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    box-shadow: 0.2em 0px 0 0px currentcolor;
+  }
+  12% {
+    box-shadow: 0.2em 0.2em 0 0 currentcolor;
+  }
+  25% {
+    box-shadow: 0 0.2em 0 0px currentcolor;
+  }
+  37% {
+    box-shadow: -0.2em 0.2em 0 0 currentcolor;
+  }
+  50% {
+    box-shadow: -0.2em 0 0 0 currentcolor;
+  }
+  62% {
+    box-shadow: -0.2em -0.2em 0 0 currentcolor;
+  }
+  75% {
+    box-shadow: 0px -0.2em 0 0 currentcolor;
+  }
+  87% {
+    box-shadow: 0.2em -0.2em 0 0 currentcolor;
+  }
+}
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(0deg, rgba(179, 178, 205, 0.2) 33%, #8796bf 100%);
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #092264;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.crossbtn {
+  border: none;
+  background: none;
+}
+
+.process {
+  color: #829196 !important;
+}
+
+.clickhere {
+  /* color:#829196 !important; */
+  color: #000000 !important;
+}
+
+/* .email{
+  color: #829196 !important;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 700;
+} */
+.email {
+  color: #829196 !important;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: sans-serif;
+  margin-bottom: 30px;
+}
+.detail .email {
+  color: #fcfcfc !important;
+}
+.cartitems {
+  border-top: 1px solid black;
+  /* border-bottom: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.finalinvoice {
+  width: 436px;
+  /* position: relative; */
+  right: 1;
+  right: 239px;
+  top: 15px;
+}
+
+.myflex {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 30px;
+  align-items: center;
+  /* padding: 0 20px; */
+}
