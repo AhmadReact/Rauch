@@ -21,9 +21,13 @@ const createUser = createAsyncThunk("user/create", async (obj) => {
   return response.data;
 });
 
-const chargeCard = createAsyncThunk("user/chargecard", async (obj) => {
+const chargeCard = createAsyncThunk("user/charge-card", async (obj) => {
+  if (obj.amount == 0) {
+    return { success: true };
+  }
+
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_ENV_VARIABLE}/charge-new-card`,
+    `${process.env.NEXT_PUBLIC_ENV_VARIABLE}/charge-card`,
     obj,
     {
       headers: {
@@ -35,6 +39,42 @@ const chargeCard = createAsyncThunk("user/chargecard", async (obj) => {
 
   return response.data;
 });
+
+const addCardAndCharge = createAsyncThunk(
+  "user/addcard&charge",
+  async (obj) => {
+    const { cardInfo, chargeInfo } = obj;
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_ENV_VARIABLE}/add-card`,
+      cardInfo,
+      {
+        headers: {
+          "Content-Type": "application/json", // Adjust the content type based on your API requirements
+          Authorization: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      }
+    );
+
+    console.log("response ", response);
+
+    const response2 = await axios.post(
+      `${process.env.NEXT_PUBLIC_ENV_VARIABLE}/charge-new-card`,
+      {
+        ...chargeInfo,
+        ...cardInfo,
+        credit_card_id: response.data.card.card.id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // Adjust the content type based on your API requirements
+          Authorization: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      }
+    );
+
+    return response2.data;
+  }
+);
 
 const chargeCardWithOutOrder = createAsyncThunk(
   "user/chargecardwithout",
@@ -298,4 +338,5 @@ export {
   getCustomerTax,
   updateSubscription,
   checkMonthlyInvoice,
+  addCardAndCharge,
 };

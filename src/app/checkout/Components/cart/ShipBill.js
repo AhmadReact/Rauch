@@ -3,6 +3,7 @@ import {
   useGenerateInvoiceMutation,
 } from "@/app/store/apis/API";
 import {
+  addCardAndCharge,
   chargeCard,
   createSubscription,
   createUser,
@@ -260,6 +261,8 @@ const ShipBill = ({ handleClick }) => {
       });
   };
 
+  console.log("selected Card", selectedCard);
+
   const checkout = () => {
     const dynamicPromises = [];
 
@@ -302,16 +305,32 @@ const ShipBill = ({ handleClick }) => {
                     checkTaxes(cart_detail?.express_shipment ? 1 : 0).then(
                       (itax) => {
                         dispatch(
-                          chargeCard({
-                            ...formik2.values,
-                            ...formik3.values,
-                            customer_card: selectedCard,
-                            order_hash: order_hash,
-                            amount:
-                              parseFloat(order_detail.totalPrice) +
-                              parseFloat(itax),
-                            customer_id: result.customer.id,
-                          })
+                          selectedCard == "customer_card"
+                            ? addCardAndCharge({
+                                cardInfo: {
+                                  ...formik2.values,
+                                  ...formik3.values,
+                                  customer_id: result.customer.id,
+                                },
+                                chargeInfo: {
+                                  ...formik2.values,
+                                  customer_id: result.customer.id,
+                                  order_hash: order_hash,
+                                  amount:
+                                    parseFloat(order_detail.totalPrice) +
+                                    parseFloat(itax),
+                                },
+                              })
+                            : chargeCard({
+                                ...formik2.values,
+                                ...formik3.values,
+                                customer_card: selectedCard,
+                                order_hash: order_hash,
+                                amount:
+                                  parseFloat(order_detail.totalPrice) +
+                                  parseFloat(itax),
+                                customer_id: result.customer.id,
+                              })
                         )
                           .unwrap()
                           .then((result2) => {
@@ -488,14 +507,29 @@ const ShipBill = ({ handleClick }) => {
           .unwrap()
           .then((order_detail) => {
             dispatch(
-              chargeCard({
-                ...formik2.values,
-                ...formik3.values,
-                customer_card: selectedCard,
-                order_hash: order_hash,
-                amount: parseFloat(order_detail.totalPrice) + parseFloat(tax),
-                customer_id: userInfo?.id,
-              })
+              selectedCard == "customer_card"
+                ? addCardAndCharge({
+                    cardInfo: {
+                      ...formik2.values,
+                      ...formik3.values,
+                      customer_id: userInfo?.id,
+                    },
+                    chargeInfo: {
+                      ...formik2.values,
+                      customer_id: userInfo?.id,
+                      order_hash: order_hash,
+                      amount: parseFloat(order_detail.totalPrice),
+                    },
+                  })
+                : chargeCard({
+                    ...formik2.values,
+                    ...formik3.values,
+                    credit_card_id: selectedCard,
+                    order_hash: order_hash,
+                    amount:
+                      parseFloat(order_detail.totalPrice) + parseFloat(tax),
+                    customer_id: userInfo?.id,
+                  })
             )
               .unwrap()
               .then((result) => {
@@ -1050,7 +1084,7 @@ const ShipBill = ({ handleClick }) => {
     initialValues: {
       payment_card_no: "",
       expires_mmyy: "",
-      payment_cvc: "4242424242424242",
+      payment_cvc: "",
       payment_card_holder: "",
     },
     onSubmit: (values) => {
