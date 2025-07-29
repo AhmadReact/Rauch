@@ -21,7 +21,7 @@ const fetchAPi = createApi({
       fetchPlans: builder.query({
         query: () => {
           return {
-            url: "/plans",
+            url: "/plans?honor_visibility=true",
             method: "GET",
           };
         },
