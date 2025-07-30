@@ -44,6 +44,7 @@ import { createSubscriptionAddon } from "@/app/services/services";
 import { Accordion, AccordionDetails, AccordionSummary } from "./Accordion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import useReferralCode from "../../../hooks/useReferralCode";
 
 const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
   const { onChange, ...other } = props;
@@ -88,6 +89,7 @@ MMYY.propTypes = {
 };
 
 const ShipBill = ({ handleClick }) => {
+  const { getReferralCode, clearReferralCode } = useReferralCode();
   const { userInfo, isSignedIn, billingCards } = useSelector((state) => {
     return state.user;
   });
@@ -199,7 +201,15 @@ const ShipBill = ({ handleClick }) => {
 
   const createAccount = () => {
     setLoader(true);
-    dispatch(createUser({ ...formik.values, order_hash: order_hash }))
+    const referralCode = getReferralCode();
+    const userData = { ...formik.values, order_hash: order_hash };
+
+    // Add referral code to payload if it exists
+    if (referralCode) {
+      userData.referral_code = referralCode;
+    }
+
+    dispatch(createUser(userData))
       .unwrap()
       .then((result) => {
         if (result.details || result.error) {
@@ -234,6 +244,9 @@ const ShipBill = ({ handleClick }) => {
                 dispatch(getCustomerDetail(result.customer.hash))
                   .unwrap()
                   .then(() => {
+                    // Clear referral code after successful account creation
+                    clearReferralCode();
+
                     const sectionPosition =
                       paymentRef.current.getBoundingClientRect().top +
                       window.pageYOffset;
@@ -267,7 +280,15 @@ const ShipBill = ({ handleClick }) => {
     const dynamicPromises = [];
 
     setLoader(true);
-    dispatch(createUser({ ...formik.values, order_hash: order_hash }))
+    const referralCode = getReferralCode();
+    const userData = { ...formik.values, order_hash: order_hash };
+
+    // Add referral code to payload if it exists
+    if (referralCode) {
+      userData.referral_code = referralCode;
+    }
+
+    dispatch(createUser(userData))
       .unwrap()
       .then((result) => {
         if (result.details || result.error) {
@@ -436,6 +457,8 @@ const ShipBill = ({ handleClick }) => {
                                           value: order_hash,
                                         })
                                       );
+                                      // Clear referral code after successful checkout
+                                      clearReferralCode();
                                       handleClick(2);
                                     })
                                     .catch(() => {});
@@ -700,6 +723,8 @@ const ShipBill = ({ handleClick }) => {
                               })
                             );
 
+                            // Clear referral code after successful checkout
+                            clearReferralCode();
                             handleClick(2);
                           })
                           .catch(() => {
@@ -798,6 +823,8 @@ const ShipBill = ({ handleClick }) => {
                             })
                           );
 
+                          // Clear referral code after successful checkout
+                          clearReferralCode();
                           handleClick(2);
                         })
                         .catch(() => {
